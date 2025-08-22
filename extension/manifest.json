@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "Georgia SOS Name Checker",
+  "version": "1.0",
+  "description": "Check company name availability on Georgia's Secretary of State site.",
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "permissions": ["tabs"],
+  "host_permissions": ["https://ecorp.sos.ga.gov/*"]
+}
