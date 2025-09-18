@@ -156,6 +156,51 @@ autoFetchButton?.addEventListener('click', async () => {
           return Math.round(numeric * multiplier);
         };
 
+        const RESERVED_PROFILE_PATHS = new Set([
+          '',
+          'about',
+          'accounts',
+          'ads',
+          'business',
+          'challenge',
+          'developer',
+          'developers',
+          'directory',
+          'events',
+          'explore',
+          'graph',
+          'help',
+          'legal',
+          'oauth',
+          'policies',
+          'privacy',
+          'professional_dashboard',
+          'p',
+          'reel',
+          'reels',
+          'tagged',
+          'sessions',
+          'stories',
+          'support',
+          'tv',
+          'igtv',
+          'channels',
+          'web',
+          'wellbeing',
+        ]);
+
+        const isValidUsername = (username) => {
+          if (!username) {
+            return false;
+          }
+
+          if (RESERVED_PROFILE_PATHS.has(username)) {
+            return false;
+          }
+
+          return /^[a-z0-9._]+$/.test(username);
+        };
+
         const extractUsernameFromHref = (href) => {
           if (!href) {
             return null;
@@ -168,20 +213,29 @@ autoFetchButton?.addEventListener('click', async () => {
           }
 
           const [username] = cleanPath.split('/');
-          return username ? username.toLowerCase() : null;
+          const normalized = username ? username.toLowerCase() : null;
+
+          return isValidUsername(normalized) ? normalized : null;
         };
 
-        const findScrollableParent = (element) => {
+        const findScrollableParent = (element, boundary = document.body) => {
           let current = element;
-          while (current && current !== document.body) {
-            const hasScroll = current.scrollHeight > current.clientHeight + 5;
-            if (hasScroll) {
+
+          while (current && current !== boundary) {
+            if (current.scrollHeight > current.clientHeight + 5) {
               return current;
             }
             current = current.parentElement;
           }
+
+          if (boundary && boundary.scrollHeight > boundary.clientHeight + 5) {
+            return boundary;
+          }
+
           return element;
         };
+
+        const profileUsername = extractUsernameFromHref(window.location.pathname);
 
         const closeActiveDialog = async () => {
           const dialog = document.querySelector('div[role="dialog"]');
@@ -241,23 +295,52 @@ autoFetchButton?.addEventListener('click', async () => {
             100,
             'No se pudo abrir la ventana con la lista solicitada.'
           );
-          const list = await waitFor(
-            () => dialog.querySelector('ul'),
+          const initialAnchor = await waitFor(
+            () => {
+              const anchors = dialog.querySelectorAll('a[href]');
+              for (const anchor of anchors) {
+                const username = extractUsernameFromHref(anchor.getAttribute('href'));
+                if (username) {
+                  return anchor;
+                }
+              }
+              return null;
+            },
             10_000,
             100,
-            'No se pudo cargar la lista de usuarios desde Instagram.'
+            'No se detectaron usuarios en la lista de Instagram.'
           );
-          const scrollContainer = findScrollableParent(list);
+
+          let scrollContainer = findScrollableParent(initialAnchor, dialog);
+
+          if (scrollContainer === initialAnchor) {
+            const fallback = Array.from(dialog.querySelectorAll('div')).find((candidate) => {
+              if (candidate.scrollHeight <= candidate.clientHeight + 5) {
+                return false;
+              }
+
+              return Array.from(candidate.querySelectorAll('a[href]')).some((anchor) =>
+                Boolean(extractUsernameFromHref(anchor.getAttribute('href')))
+              );
+            });
+
+            if (fallback) {
+              scrollContainer = fallback;
+            }
+          }
+
+          if (!scrollContainer || scrollContainer === initialAnchor) {
+            scrollContainer = dialog;
+          }
 
           const collectUsernames = () => {
-            const items = Array.from(dialog.querySelectorAll('ul li'));
+            const anchors = Array.from(scrollContainer.querySelectorAll('a[href]'));
             const seen = new Set();
             const usernames = [];
 
-            for (const item of items) {
-              const anchor = item.querySelector('a[href^="/"][role="link"]');
-              const username = extractUsernameFromHref(anchor?.getAttribute('href'));
-              if (!username || seen.has(username)) {
+            for (const anchor of anchors) {
+              const username = extractUsernameFromHref(anchor.getAttribute('href'));
+              if (!username || username === profileUsername || seen.has(username)) {
                 continue;
               }
               seen.add(username);
@@ -271,7 +354,12 @@ autoFetchButton?.addEventListener('click', async () => {
           let usernames = collectUsernames();
 
           while ((!total || usernames.length < total) && stableIterations < 10) {
-            scrollContainer.scrollTop = scrollContainer.scrollHeight;
+            if (typeof scrollContainer.scrollTo === 'function') {
+              scrollContainer.scrollTo({ top: scrollContainer.scrollHeight, behavior: 'auto' });
+            } else {
+              scrollContainer.scrollTop = scrollContainer.scrollHeight;
+            }
+            scrollContainer.dispatchEvent(new Event('scroll'));
             await sleep(650);
             const updated = collectUsernames();
             if (updated.length === usernames.length) {
