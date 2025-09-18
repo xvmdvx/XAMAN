@@ -1,17 +1,17 @@
-# XAMAN
+# Instagram Non-Follower Finder
 
-Herramienta mínima para verificar la disponibilidad de nombres de compañía en el sitio del Secretario de Estado de Georgia.
+Esta extensión de Chrome te ayuda a comparar las listas de *seguidos* y *seguidores* de Instagram para identificar rápidamente quiénes no te siguen de vuelta.
 
-## Extensión de Chrome
-
-Los archivos de la extensión se encuentran en la carpeta `extension`.
-
-### Instalación
+## Instalación
 1. Abre `chrome://extensions` en Google Chrome.
-2. Activa **Developer mode**.
-3. Selecciona **Load unpacked** y elige la carpeta `extension` de este proyecto.
+2. Activa **Developer mode** (modo desarrollador).
+3. Haz clic en **Load unpacked** (Cargar descomprimida) y selecciona la carpeta `extension` de este proyecto.
 
-### Uso
-1. Haz clic en el icono de la extensión.
-2. Escribe el nombre de la compañía que deseas verificar.
-3. Presiona **Verificar** y se abrirá una nueva pestaña con la búsqueda en [ecorp.sos.ga.gov](https://ecorp.sos.ga.gov/businesssearch).
+## Uso
+1. Abre Instagram y copia la lista de usuarios que sigues y la de tus seguidores (por ejemplo desde las ventanas modales de Instagram o desde un archivo exportado).
+2. Haz clic en el icono de la extensión para abrir el popup.
+3. Pega la lista de *seguidos* en el primer recuadro y la lista de *seguidores* en el segundo.
+4. Presiona **Encontrar no seguidores** para generar la lista de cuentas que no te siguen de vuelta.
+5. Haz clic en cualquier nombre del resultado para abrir el perfil directamente en una nueva pestaña.
+
+> **Nota:** La extensión funciona localmente en tu navegador y no almacena ni envía tus datos a ningún servidor.

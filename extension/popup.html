@@ -1,12 +1,35 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Georgia SOS Checker</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Instagram Non-Follower Finder</title>
+  <link rel="stylesheet" href="popup.css" />
 </head>
 <body>
-  <input type="text" id="companyName" placeholder="Nombre de la compañía" />
-  <button id="checkBtn">Verificar</button>
-  <script src="popup.js"></script>
+  <main class="container">
+    <h1 class="title">Instagram Non-Follower Finder</h1>
+    <p class="description">
+      Pega tus listas de <strong>seguidos</strong> y <strong>seguidores</strong> para descubrir quiénes no te siguen de vuelta.
+    </p>
+
+    <section class="inputs">
+      <label for="followingInput">Usuarios que sigues</label>
+      <textarea id="followingInput" placeholder="Un usuario por línea o separados por comas"></textarea>
+
+      <label for="followersInput">Usuarios que te siguen</label>
+      <textarea id="followersInput" placeholder="Un usuario por línea o separados por comas"></textarea>
+    </section>
+
+    <button id="compareButton" class="primary-button">Encontrar no seguidores</button>
+
+    <section id="results" class="results hidden">
+      <h2>No te siguen de vuelta</h2>
+      <p class="result-count"></p>
+      <ul class="result-list"></ul>
+    </section>
+  </main>
+
+  <script src="popup.js" type="module"></script>
 </body>
 </html>
