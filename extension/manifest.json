@@ -1,11 +1,10 @@
 {
   "manifest_version": 3,
-  "name": "Georgia SOS Name Checker",
+  "name": "Instagram Non-Follower Finder",
   "version": "1.0",
-  "description": "Check company name availability on Georgia's Secretary of State site.",
+  "description": "Compara tus seguidos y seguidores de Instagram para encontrar quién no te sigue de vuelta.",
   "action": {
-    "default_popup": "popup.html"
-  },
-  "permissions": ["tabs"],
-  "host_permissions": ["https://ecorp.sos.ga.gov/*"]
+    "default_popup": "popup.html",
+    "default_title": "Instagram Non-Follower Finder"
+  }
 }
