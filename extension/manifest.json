@@ -1,8 +1,10 @@
 {
   "manifest_version": 3,
   "name": "Instagram Non-Follower Finder",
-  "version": "1.0",
+  "version": "1.1",
   "description": "Compara tus seguidos y seguidores de Instagram para encontrar quién no te sigue de vuelta.",
+  "permissions": ["scripting", "tabs"],
+  "host_permissions": ["https://www.instagram.com/*"],
   "action": {
     "default_popup": "popup.html",
     "default_title": "Instagram Non-Follower Finder"

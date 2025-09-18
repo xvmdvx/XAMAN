@@ -10,7 +10,7 @@
   <main class="container">
     <h1 class="title">Instagram Non-Follower Finder</h1>
     <p class="description">
-      Pega tus listas de <strong>seguidos</strong> y <strong>seguidores</strong> para descubrir quiénes no te siguen de vuelta.
+      Pega tus listas de <strong>seguidos</strong> y <strong>seguidores</strong> o deja que la extensión los obtenga desde Instagram automáticamente.
     </p>
 
     <section class="inputs">
@@ -21,7 +21,11 @@
       <textarea id="followersInput" placeholder="Un usuario por línea o separados por comas"></textarea>
     </section>
 
-    <button id="compareButton" class="primary-button">Encontrar no seguidores</button>
+    <section class="actions">
+      <button id="autoFetchButton" class="secondary-button">Obtener datos automáticamente</button>
+      <button id="compareButton" class="primary-button">Encontrar no seguidores</button>
+      <p id="statusMessage" class="status hidden" role="status" aria-live="polite"></p>
+    </section>
 
     <section id="results" class="results hidden">
       <h2>No te siguen de vuelta</h2>
