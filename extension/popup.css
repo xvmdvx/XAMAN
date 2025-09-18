@@ -78,6 +78,41 @@ textarea:focus {
   transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
+.secondary-button {
+  background: rgba(15, 23, 42, 0.6);
+  color: rgba(226, 232, 240, 0.95);
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  padding: 0.65rem 0.75rem;
+  border-radius: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.secondary-button:hover,
+.secondary-button:focus-visible {
+  border-color: rgba(249, 115, 22, 0.6);
+  background: rgba(15, 23, 42, 0.75);
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.actions button {
+  width: 100%;
+}
+
+.primary-button:disabled,
+.secondary-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  box-shadow: none;
+  transform: none;
+}
+
 .primary-button:hover,
 .primary-button:focus-visible {
   transform: translateY(-1px);
@@ -139,4 +174,23 @@ textarea:focus {
 .empty-state {
   color: rgba(226, 232, 240, 0.8);
   font-style: italic;
+}
+
+.status {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: rgba(226, 232, 240, 0.85);
+}
+
+.status--success {
+  color: #4ade80;
+}
+
+.status--warning {
+  color: #facc15;
+}
+
+.status--error {
+  color: #f87171;
 }
